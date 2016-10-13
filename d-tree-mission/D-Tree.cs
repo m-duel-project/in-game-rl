@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Linq;
-using System.Data;
 using RDotNet;
 
 namespace DTree
 {
     static class Program
     {
-        static string predict(this REngine engine, double sl, double sw, double pl, double pw, string species)
+        static string predict(this REngine engine, double sepalLength, double sepalWidth, double petalLength, double petalWidth, string species)
         {
             engine.Evaluate(string.Format(
                 "p <- data.frame(Sepal.Length={0}, Sepal.Width={1}, Petal.Length={2}, Petal.Width={3}, Species=\"{4}\")",
-                sl, sw, pl, pw, species));
+                sl, sepalWidth, petalLength, petalWidth, species));
             engine.Evaluate("ctreepred <- predict(iris_ctree, newdata=p)");
 
             return engine.GetSymbol("ctreepred").AsCharacter()[0];
