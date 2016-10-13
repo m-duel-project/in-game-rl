@@ -1,25 +1,25 @@
-###################################
-########## ±∫ ¡˝ ∫– ºÆ ############
+Ôªø###################################
+########## Íµ∞ Ïßë Î∂Ñ ÏÑù ############
 ###################################
 # install.packages("caret")
 # install.packages("fastcluster")
 library(caret)
 library(fastcluster)
 
-# «•¡ÿ»≠
-training_data <- scale(iris[ ,-5]) #Species µ•¿Ã≈Õ ¡¶∞≈(º˝¿⁄«¸∫Øºˆx)
+# ÌëúÏ§ÄÌôî
+training_data <- scale(iris[ ,-5]) #Species Îç∞Ïù¥ÌÑ∞ Ï†úÍ±∞(Ïà´ÏûêÌòïÎ≥ÄÏàòx)
 summary(training_data)
 
 
-# ±∫¡˝ºˆ ∞·¡§ 
-## ∆–≈∞¡ˆ ªÁøÎ (√÷¿˚¿« combination¿ª ≈Î«ÿ º±≈√)
+# Íµ∞ÏßëÏàò Í≤∞Ï†ï 
+## Ìå®ÌÇ§ÏßÄ ÏÇ¨Ïö© (ÏµúÏ†ÅÏùò combinationÏùÑ ÌÜµÌï¥ ÏÑ†ÌÉù)
 # install.packages("NbClust")
 # library(NbClust)
 # 
 # nc <- NbClust(training_data, min.nc=2, max.nc=15, method="kmeans")
 # barplot(table(nc$Best.n[1,]),  xlab="Numer of Clusters", ylab="Number of Criteria", main="Number of Clusters Chosen")
 
-## sum of squares ¡¶¿œ ¿€æ∆ ¡ˆ¥¬ ¡ˆ¡° ≈Ωªˆ
+## sum of squares Ï†úÏùº ÏûëÏïÑ ÏßÄÎäî ÏßÄÏ†ê ÌÉêÏÉâ
 # wss <- NULL
 # for(i in 1:7){
 #   wss[i] = kmeans(training_data, centers=i)$tot.withinss
@@ -29,80 +29,80 @@ summary(training_data)
 
 
 set.seed(100)
-##### k-means (∫Ò∞Ë√˛¿˚) ±∫¡˝∫–ºÆ ######
-# ∏µ®∏µ (±∫¡˝∞≥ºˆ-3∞≥∫–∑˘)
+##### k-means (ÎπÑÍ≥ÑÏ∏µÏ†Å) Íµ∞ÏßëÎ∂ÑÏÑù ######
+# Î™®Îç∏ÎßÅ (Íµ∞ÏßëÍ∞úÏàò-3Í∞úÎ∂ÑÎ•ò)
 iris_kmeans <- kmeans(training_data, centers=3, iter.max=10000)
-iris_kmeans$cluster <- as.factor(iris_kmeans$cluster) #Rownumber∫∞ ±∫¡˝ ∏≈«Œ ∞™
+iris_kmeans$cluster <- as.factor(iris_kmeans$cluster) #RownumberÎ≥Ñ Íµ∞Ïßë Îß§Ìïë Í∞í
 
 table(iris_kmeans$cluster)
-table(iris$Species, iris_kmeans$cluster) #virginica¥¬ ¿ﬂ ∫–∑˘«ÿ ≥ª¡ˆ∏∏, ±◊ ø‹¥¬ ∫Ø∫∞∑¬ æ‡«‘.
+table(iris$Species, iris_kmeans$cluster) #virginicaÎäî Ïûò Î∂ÑÎ•òÌï¥ ÎÇ¥ÏßÄÎßå, Í∑∏ Ïô∏Îäî Î≥ÄÎ≥ÑÎ†• ÏïΩÌï®.
 
 plot(iris[c("Sepal.Length", "Sepal.Width")], col=iris_kmeans$cluster)
 
 
 set.seed(0)
-##### Hierarchical - hcluster (∞Ë√˛¿˚) ±∫¡˝∫–ºÆ ######
-# ∏µ®∏µ
-hc <- hclust(dist(training_data), method="ave") #Row∞£ ∞≈∏Æ ∞ËªÍ
+##### Hierarchical - hcluster (Í≥ÑÏ∏µÏ†Å) Íµ∞ÏßëÎ∂ÑÏÑù ######
+# Î™®Îç∏ÎßÅ
+hc <- hclust(dist(training_data), method="ave") #RowÍ∞Ñ Í±∞Î¶¨ Í≥ÑÏÇ∞
 
 # plot(hc, hang=-1, labels=iris$Species)
-# rect.hclust(hc, k=3)  #3∞≥¿« ≈¨∑ØΩ∫≈Õ «•«ˆ
+# rect.hclust(hc, k=3)  #3Í∞úÏùò ÌÅ¥Îü¨Ïä§ÌÑ∞ ÌëúÌòÑ
 
-groups <- cutree(hc, k=3) #3∞≥¿« ≈¨∑ØΩ∫≈Õ∑Œ «•«ˆ
+groups <- cutree(hc, k=3) #3Í∞úÏùò ÌÅ¥Îü¨Ïä§ÌÑ∞Î°ú ÌëúÌòÑ
 table(groups)
 
-table(iris$Species, groups) #setosa¥¬ ¿ﬂ ∫–∑˘«ÿ ≥ª¡ˆ∏∏, ±◊ ø‹¥¬ ∫Ø∫∞∑¬ æ‡«‘.
+table(iris$Species, groups) #setosaÎäî Ïûò Î∂ÑÎ•òÌï¥ ÎÇ¥ÏßÄÎßå, Í∑∏ Ïô∏Îäî Î≥ÄÎ≥ÑÎ†• ÏïΩÌï®.
 
 
 
 ###################################
-########## D-TREE ∫– ºÆ ###########
+########## D-TREE Î∂Ñ ÏÑù ###########
 ###################################
 # install.packages("party")
 library(party)
 
 set.seed(2)
-# train / test ∫–«“
+# train / test Î∂ÑÌï†
 ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.7,0.3))
 trainData <- iris[ind==1, ]
 testData <- iris[ind==2, ]
 
-# ∏µ®∏µ
+# Î™®Îç∏ÎßÅ
 formula <- Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
 iris_ctree <- ctree(formula, data=trainData)
 
 plot(iris_ctree)
 
-# test øπ√¯
+# test ÏòàÏ∏°
 ctreepred <- predict(iris_ctree, newdata=testData)
 table(testData$Species, ctreepred)
 
 
 
 ###################################
-##### ∑Œ ¡ˆ Ω∫ ∆Ω »∏ ±Õ ∫– ºÆ #####
+##### Î°ú ÏßÄ Ïä§ Ìã± Ìöå Í∑Ä Î∂Ñ ÏÑù #####
 ###################################
 # install.packages("glm2")
 library(glm2)
 
-# target ∫Øºˆ 2∞≥ π¸¡÷∑Œ∏∏ º±≈√ (π¸¡÷«¸∫Øºˆ∑Œ∫Ø»Ø)
+# target Î≥ÄÏàò 2Í∞ú Î≤îÏ£ºÎ°úÎßå ÏÑ†ÌÉù (Î≤îÏ£ºÌòïÎ≥ÄÏàòÎ°úÎ≥ÄÌôò)
 adj_iris <- iris
 adj_iris$Species <- as.character(adj_iris$Species)
 adj_iris <- subset(adj_iris, Species %in% c('versicolor', 'virginica'))
 adj_iris$Species <- as.factor(adj_iris$Species)
 
 set.seed(10)
-# train / test ∫–«“
+# train / test Î∂ÑÌï†
 ind <- sample(2, nrow(adj_iris), replace=TRUE, prob=c(0.7,0.3))
 trainData <- adj_iris[ind==1, ]
 testData <- adj_iris[ind==2, ]
 
-# ∏µ®∏µ
+# Î™®Îç∏ÎßÅ
 formula <- Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
 iris_logit <- glm(formula, data=trainData, family=binomial()) 
-#¿œπ›º±«¸∏«¸(GLM)¿Ã æ∆¥— ∑Œ¡ˆΩ∫∆Ω »∏±Õ∏¶ Ω««‡«œ±‚ ¿ß«ÿ, R «¡∑Œ±◊∑•ø° family=binomial ¿Ã∂ı ø…º«¿ª º≥¡§«ÿæﬂ «œ¥¬ ∞Õ
+#ÏùºÎ∞òÏÑ†ÌòïÎ™®Ìòï(GLM)Ïù¥ ÏïÑÎãå Î°úÏßÄÏä§Ìã± ÌöåÍ∑ÄÎ•º Ïã§ÌñâÌïòÍ∏∞ ÏúÑÌï¥, R ÌîÑÎ°úÍ∑∏Îû®Ïóê family=binomial Ïù¥ÎûÄ ÏòµÏÖòÏùÑ ÏÑ§Ï†ïÌï¥Ïïº ÌïòÎäî Í≤É
 
-# test øπ√¯
+# test ÏòàÏ∏°
 #data.frame(adj_iris$Species, as.numeric(adj_iris$Species)-1) #versicolor=0, virginica=1
 
 logitpred_a <- predict(iris_logit, newdata=testData, type="response")
@@ -113,7 +113,7 @@ table(testData$Species , logitpred)
 
 
 ###################################
-##### H2O Deeplearning ∫– ºÆ ######
+##### H2O Deeplearning Î∂Ñ ÏÑù ######
 ###################################
 # install.packages("h2o")
 library(h2o)
@@ -123,10 +123,10 @@ h2o.init()
 set.seed(4)
 iris.hex <- as.h2o(iris)
 
-# ∏µ®∏µ
-iris_dl <- h2o.deeplearning(x = 1:4, y = 5, training_frame = iris.hex, activation = "Tanh", hidden = c(10, 10)) #x:¿Œ«≤∫Øºˆ, y:≈∏∞Ÿ∫Øºˆ
+# Î™®Îç∏ÎßÅ
+iris_dl <- h2o.deeplearning(x = 1:4, y = 5, training_frame = iris.hex, activation = "Tanh", hidden = c(10, 10)) #x:Ïù∏ÌíãÎ≥ÄÏàò, y:ÌÉÄÍ≤üÎ≥ÄÏàò
 
-# øπ√¯
+# ÏòàÏ∏°
 predictions <- h2o.predict(iris_dl, iris.hex)
 predictions <- as.data.frame(predictions)
 
@@ -139,20 +139,20 @@ table(iris$Species, predictions$predict)
 
 
 # ###################################
-# ##### ANN (¿Œ∞¯Ω≈∞Ê∏¡) ∫– ºÆ ######
+# ##### ANN (Ïù∏Í≥µÏã†Í≤ΩÎßù) Î∂Ñ ÏÑù ######
 # ###################################
 # # install.packages("nnet")
 # library(nnet)
 # 
 # set.seed(3)
-# # train / test ∫–«“
+# # train / test Î∂ÑÌï†
 # ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.7,0.3))
 # trainData <- iris[ind==1, ]
 # testData <- iris[ind==2, ]
 # 
-# # ∏µ®∏µ
+# # Î™®Îç∏ÎßÅ
 # formula <- Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
 # iris_nnet <- nnet(formula, data=trainData, size=3) #size : hidden layer
 # 
-# # test øπ√¯
+# # test ÏòàÏ∏°
 # nnetpred <- predict(iris_nnet, newdata=testData, type="class")
